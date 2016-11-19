@@ -16,14 +16,12 @@ function playGame() {
     turn = turn == 0 ? 1 : 0; // swap turns
   }
 
-  playerX.gameEnded();
-  playerO.gameEnded();
   return game;
 }
 
 for (var i = 0; i < 10000; i++) {
   var game = playGame();
-  // Display.drawBoard(game);
+  Display.drawBoard(game.board);
 
   if (game.winner) {
     console.log("Winner is ", game.winner);

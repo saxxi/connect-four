@@ -17,19 +17,17 @@ Player.prototype.play = function (game) {
 
   var move = this.calcNextMove();
   while (!this.game.validMove(move)) {
-    // TODO: AI - Propagate error
+    this.brain.badMove(move);
     move = this.calcNextMove();
   }
 
   if (this.game.validMove(move)) {
     this.game.play(this.mark, move);
-  };
-};
 
-Player.prototype.gameEnded = function () {
-  if (this.game.winner != null && this.game.winner != this.mark) {
-    // TODO: AI - Propagate error
-  }
+    if (this.game.winner != null && this.game.winner != this.mark) {
+      this.brain.badMove(move);
+    }
+  };
 };
 
 module.exports = Player;
