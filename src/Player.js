@@ -1,15 +1,18 @@
-var Player = function(game, mark) {
-  this.game = game;
+var Brain = require('./Brain');
+
+var Player = function(mark) {
+  this.brain = new Brain();
+  this.game = null;
   this.mark = mark; // ie. X | O
   this.moves = 0;
 }
 
 Player.prototype.calcNextMove = function () {
-  // TODO: AI - Activate net
-  return Math.round(Math.random() * this.game.cols + 1);
+  return this.brain.calcNextMove(this.game.board);
 };
 
-Player.prototype.play = function () {
+Player.prototype.play = function (game) {
+  this.game = game;
   this.moves += 1;
 
   var move = this.calcNextMove();

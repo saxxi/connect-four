@@ -1,57 +1,33 @@
 'use strict';
 
 var Game = require('connect-four');
-var game = new Game();
-
+var Display = require('./src/Display');
 var Player = require('./src/Player');
-var playerX = new Player(game, 'X');
-var playerO = new Player(game, 'O');
-
+var playerX = new Player('X');
+var playerO = new Player('O');
 var players = [playerX, playerO];
-var playing = true;
-var turn = 0;
 
-while (!game.ended) {
-  console.log('\n\n\n\n');
-  players[turn].play();
-  drawBoard(game);
-  swapTurns();
-}
+function playGame() {
+  var game = new Game();
+  var turn = 0;
 
-if (game.winner) {
-  console.log("Winner is ", game.winner);
-} else {
-  console.log("Draw!");
-}
-
-playerX.gameEnded();
-playerO.gameEnded();
-
-function swapTurns() {
-  turn = turn == 0 ? 1 : 0;
-}
-
-function drawBoard(game) {
-  var board = [];
-  for (var i = 0; i < game.rows; i++) {
-    board[i] = [];
-    for (var j = 0; j < game.cols; j++) board[i][j] = '.';
+  while (!game.ended) {
+    players[turn].play(game);
+    turn = turn == 0 ? 1 : 0; // swap turns
   }
 
-  for (var k in game.board) {
-    if (game.board.hasOwnProperty(k)) {
-      var coords = k.split(':');
-      var x = game.rows - parseInt(coords[1]) - 1;
-      var y = parseInt(coords[0]);
-      board[x][y] = game.board[k];
-    }
-  }
+  playerX.gameEnded();
+  playerO.gameEnded();
+  return game;
+}
 
-  for (var i = 0; i < game.rows; i++) {
-    var row = "";
-    for (var j = 0; j < game.cols; j++) {
-      row += " " + board[i][j] + " ";
-    }
-    console.log(row);
+for (var i = 0; i < 10000; i++) {
+  var game = playGame();
+  // Display.drawBoard(game);
+
+  if (game.winner) {
+    console.log("Winner is ", game.winner);
+  } else {
+    console.log("Draw!");
   }
 }
