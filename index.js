@@ -37,6 +37,7 @@ for (var i = 0; i < 100000; i++) {
       console.log(i, " Winner is ", game.winner);
     }
   } catch (e) {
+    if (e == "BAD_AI_OUTPUT") throw "BAD_AI_OUTPUT";
     console.log('Maybe draw!');
   }
 }

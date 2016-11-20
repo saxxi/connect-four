@@ -32,7 +32,7 @@ Player.prototype.play = function (game) {
 
   var move = this.calcNextMove();
   while (!this.game.validMove(move)) {
-    this.brain.badMove(move);
+    this.brain.badMove(this.mark);
 
     this.sameMoves++;
     if (this.sameMoves >= 8) {
