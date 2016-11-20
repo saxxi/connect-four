@@ -1,5 +1,8 @@
+'use strict';
+
 var synaptic = require('synaptic');
 var Display = require('./Display');
+var RNG = require('./RNG');
 
 var Neuron = synaptic.Neuron,
     Layer = synaptic.Layer,
@@ -16,10 +19,13 @@ var Brain = function () {
 }
 
 Brain.prototype.calcNextMove = function (board) {
-  var inputBits = Display.board2Bits(board).join()
+  return this.calcRandomMove();
+};
 
-  return Math.round(Math.random() * Display.cols + 1);
-  // return this.LSTM.activate(inputBits);
+Brain.prototype.calcRandomMove = function () {
+  var v = RNG.nextRange(1, Display.cols);
+  // console.log('calcRandomMove', v);
+  return v;
 };
 
 Brain.prototype.badMove = function (move) {
