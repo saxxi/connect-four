@@ -32,7 +32,7 @@ module.exports = {
         row += " " + board[i][j] + " ";
       }
     }
-    console.log(board);
+    return board;
   },
 
   // eg. Input: [ [X, ., .],

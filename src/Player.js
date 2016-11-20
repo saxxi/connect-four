@@ -1,11 +1,14 @@
 var Brain = require('./Brain');
 
+var Display = require('./Display');
+
 var Player = function(mark) {
   this.brain = new Brain();
   this.game = null;
   this.mark = mark; // ie. X | O
   this.moves = 0;
   this.sameMoves = 0;
+  this.prevMove = -1;
 }
 
 Player.prototype.calcNextMove = function () {
@@ -17,6 +20,7 @@ Player.prototype.playRandom = function (game) {
   var move = this.brain.calcRandomMove();
   while (!this.game.validMove(move)) {
     this.brain.badMove(move);
+    // console.log('player playing randomly', move);
     move = this.brain.calcRandomMove();
   }
   this.game.play(this.mark, move);
@@ -29,14 +33,22 @@ Player.prototype.play = function (game) {
   var move = this.calcNextMove();
   while (!this.game.validMove(move)) {
     this.brain.badMove(move);
+
     this.sameMoves++;
     if (this.sameMoves >= 8) {
       this.sameMoves = 0;
       move = this.brain.calcRandomMove();
+
+      if (this.prevMove == move) {
+        throw "maybe draw";
+      }
+
     } else {
-      move = this.calcNextMove();
+      move = this.brain.calcNextMove();
     }
   }
+
+  this.prevMove = move;
 
   if (this.game.validMove(move)) {
     this.game.play(this.mark, move);
