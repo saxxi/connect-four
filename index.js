@@ -14,7 +14,7 @@ function playGame() {
 
   while (!game.ended) {
 
-    if (turn == 1 && i % 4) {
+    if (turn == 1 && i % 4 && i < 50000) {
       players[turn].playRandom(game);
     } else {
       players[turn].play(game);
@@ -28,13 +28,17 @@ function playGame() {
 }
 
 for (var i = 0; i < 100000; i++) {
-  var game = playGame();
-  Display.drawBoard(game.board);
+  try {
+    var game = playGame();
+    console.log(Display.drawBoard(game.board));
 
-  if (game.winner) {
-    console.log('');
-    console.log(i, " Winner is ", game.winner);
-  } else {
-    console.log("Draw!");
+    if (game.winner) {
+      console.log('');
+      console.log(i, " Winner is ", game.winner);
+    }
+  } catch (e) {
+    console.log('Maybe draw!');
   }
 }
+
+console.log(i);
