@@ -11,15 +11,24 @@ var Neuron = synaptic.Neuron,
     Architect = synaptic.Architect;
 
 var Brain = function () {
+  // this.learningRate = .17;
+  this.learningRate = .6;
+
   var cellBits = 2;
   var totalInputs = Display.rows * Display.cols * cellBits;
   var outputs = Display.cols; // position to play, ie. row 1..7
   var hidden = totalInputs * .8 | 0;
-  this.LSTM = new Architect.LSTM(totalInputs, hidden, outputs);
+  var LSTM = new Architect.LSTM(totalInputs, hidden, outputs);
+  this.net = LSTM.trainer.network;
 }
 
 Brain.prototype.calcNextMove = function (board) {
-  return this.calcRandomMove();
+  var inputBits = Display.board2Bits(board)
+  console.log(inputBits.join(''), 'activate');
+  var moveBits = this.net.activate(inputBits);
+  console.log(inputBits.join(''), '---', moveBits.join(' '), inputBits.length);
+  if (moveBits.join(' ') == 'NaN NaN NaN NaN NaN NaN NaN') ffff;
+  return Display.indexOfMax(moveBits) + 1;
 };
 
 Brain.prototype.calcRandomMove = function () {
@@ -29,7 +38,8 @@ Brain.prototype.calcRandomMove = function () {
 };
 
 Brain.prototype.badMove = function (move) {
-  // TODO: continue here
+  console.log(Display.player2Bits(move), 'propagate');
+  this.net.propagate(this.learningRate, Display.player2Bits(move));
 };
 
 module.exports = Brain;
