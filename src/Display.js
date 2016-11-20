@@ -32,6 +32,7 @@ module.exports = {
         row += " " + board[i][j] + " ";
       }
     }
+    console.log(board);
   },
 
   // eg. Input: [ [X, ., .],
@@ -44,17 +45,24 @@ module.exports = {
   //
   // Output: [1,0, 0,0, 0,0, 0,0, 0,1, 0,0, 0,0, 0,0, 1,0]
   board2Bits: function (board) {
-    var cols = 7;
     var bits = [];
     var board = this.getBoard(board);
 
     for (var i = 0; i < board.length; i++) {
       for (var j = 0; j < board[i].length; j++) {
-        var cell = this.player2Bits(board[i][j]),
-        bits = bits.concat(cell);
+        var cell = this.player2Bits(board[i][j]);
+        bits.push.apply(bits, cell);
       }
     }
     return bits;
+  },
+
+  inactiveBoardBits: function (cellBits) {
+    bits = '';
+    for (var i = 0; i < this.rows * this.cols * cellBits.length - 1; i++) {
+      bits += '0';
+    }
+    return bits + '1';
   },
 
   player2Bits: function (cell) {
@@ -65,6 +73,20 @@ module.exports = {
     } else {
       return [0, 0];
     }
-  }
+  },
+
+  indexOfMax: function (arr) {
+    var max = arr[0];
+    var maxIndex = 0;
+
+    for (var i = 1; i < arr.length; i++) {
+      if (arr[i] > max) {
+        maxIndex = i;
+        max = arr[i];
+      }
+    }
+
+    return maxIndex;
+  },
 
 }
