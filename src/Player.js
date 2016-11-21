@@ -19,7 +19,7 @@ Player.prototype.playRandom = function (game) {
   this.game = game;
   var move = this.brain.calcRandomMove();
   while (!this.game.validMove(move)) {
-    this.brain.badMove(move);
+    this.brain.badMove(this.mark);
     // console.log('player playing randomly', move);
     move = this.brain.calcRandomMove();
   }
@@ -35,16 +35,16 @@ Player.prototype.play = function (game) {
     this.brain.badMove(this.mark);
 
     this.sameMoves++;
-    if (this.sameMoves >= 8) {
-      this.sameMoves = 0;
+    if (this.sameMoves >= 8) { // Too many times trying, maybe sth wrong
       move = this.brain.calcRandomMove();
-
       if (this.prevMove == move) {
-        throw "maybe draw";
-      }
+        this.game.ended = true;
+        return;
+      };
+      this.sameMoves = 0;
 
     } else {
-      move = this.brain.calcNextMove();
+      move = this.brain.calcNextMove(this.game.board);
     }
   }
 
@@ -54,7 +54,7 @@ Player.prototype.play = function (game) {
     this.game.play(this.mark, move);
 
     if (this.game.winner != null && this.game.winner != this.mark) {
-      this.brain.badMove(move);
+      this.brain.badMove(this.mark);
     }
   };
 };

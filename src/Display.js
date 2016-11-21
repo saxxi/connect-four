@@ -45,6 +45,7 @@ module.exports = {
   //
   // Output: [1,0, 0,0, 0,0, 0,0, 0,1, 0,0, 0,0, 0,0, 1,0]
   board2Bits: function (board) {
+    if (board == undefined) throw "BOARD_ERROR";
     var bits = [];
     var board = this.getBoard(board);
 

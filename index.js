@@ -28,18 +28,13 @@ function playGame() {
 }
 
 for (var i = 0; i < 100000; i++) {
-  try {
-    var game = playGame();
-    console.log(Display.drawBoard(game.board));
+  var game = playGame();
+  console.log(Display.drawBoard(game.board));
 
-    if (game.winner) {
-      console.log('');
-      console.log(i, " Winner is ", game.winner);
-    }
-  } catch (e) {
-    if (e == "BAD_AI_OUTPUT") throw "BAD_AI_OUTPUT";
-    console.log('Maybe draw!');
+  if (game.winner) {
+    console.log('');
+    console.log(i, " Winner is ", game.winner);
   }
 }
 
-console.log(i);
+console.log('End of training!');
