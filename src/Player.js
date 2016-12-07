@@ -19,7 +19,7 @@ Player.prototype.playRandom = function (game) {
   this.game = game;
   var move = this.brain.calcRandomMove();
   while (!this.game.validMove(move)) {
-    this.brain.badMove(this.mark);
+    this.brain.badMove(move);
     // console.log('player playing randomly', move);
     move = this.brain.calcRandomMove();
   }

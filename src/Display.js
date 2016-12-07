@@ -51,22 +51,14 @@ module.exports = {
 
     for (var i = 0; i < board.length; i++) {
       for (var j = 0; j < board[i].length; j++) {
-        var cell = this.player2Bits(board[i][j]);
+        var cell = this._player2Bits(board[i][j]);
         bits.push.apply(bits, cell);
       }
     }
     return bits;
   },
 
-  inactiveBoardBits: function (cellBits) {
-    bits = '';
-    for (var i = 0; i < this.rows * this.cols * cellBits.length - 1; i++) {
-      bits += '0';
-    }
-    return bits + '1';
-  },
-
-  player2Bits: function (cell) {
+  _player2Bits: function (cell) {
     if (cell == 'X') {
       return [1, 0];
     } else if (cell == 'O') {
@@ -74,6 +66,16 @@ module.exports = {
     } else {
       return [0, 0];
     }
+  },
+
+  play2Bits: function (play) { // play = 1..7
+    var bits = [];
+    var len = 7;
+    for (var i = 0; i < len; i++) {
+      var bit = i == play - 1 ? 1 : 0;
+      bits.push(bit);
+    }
+    return bits;
   },
 
   indexOfMax: function (arr) {

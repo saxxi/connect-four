@@ -17,22 +17,21 @@ var Brain = function () {
 
 Brain.prototype.calcNextMove = function (board) {
   var inputBits = Display.board2Bits(board)
-  console.log(inputBits.join(''), 'activate');
+  // console.log(inputBits.join(''), 'activate');
   var moveBits = this.net.activate(inputBits);
-  console.log(moveBits.join(' '), inputBits.length);
-  if (moveBits.join(' ') == 'NaN NaN NaN NaN NaN NaN NaN') throw "BAD_AI_OUTPUT";
+  // console.log(moveBits.join(' '), inputBits.length);
   return Display.indexOfMax(moveBits) + 1;
 };
 
 Brain.prototype.calcRandomMove = function () {
   var randomMove = RNG.nextRange(1, Display.cols);
-  console.log('calcRandomMove', randomMove);
+  // console.log('calcRandomMove', randomMove);
   return randomMove;
 };
 
-Brain.prototype.badMove = function (player) {
-  console.log(Display.player2Bits(player), player, 'propagate');
-  this.net.propagate(this.learningRate, Display.player2Bits(player));
+Brain.prototype.badMove = function (lastPlay) {
+  // console.log(Display.play2Bits(lastPlay), lastPlay, 'propagate');
+  this.net.propagate(this.learningRate, Display.play2Bits(lastPlay));
 };
 
 module.exports = Brain;

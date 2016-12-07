@@ -29,9 +29,10 @@ function playGame() {
 
 for (var i = 0; i < 100000; i++) {
   var game = playGame();
-  console.log(Display.drawBoard(game.board));
+  // console.log(Display.drawBoard(game.board));
 
   if (game.winner) {
+    console.log(Display.drawBoard(game.board));
     console.log('');
     console.log(i, " Winner is ", game.winner);
   }
